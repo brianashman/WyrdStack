@@ -4,7 +4,7 @@
              x:Class="WyrdStack.Maui.Views.MainPage">
 
     <ScrollView>
-        <Content
+        <Label Text="Welcome to the Main Page"/>
     </ScrollView>
 
 </ContentPage>
