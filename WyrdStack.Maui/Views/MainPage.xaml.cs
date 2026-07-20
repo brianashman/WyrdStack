@@ -1,4 +1,4 @@
-﻿namespace WyrdStack.Maui
+﻿namespace WyrdStack.Maui.Views
 {
 	public partial class MainPage : ContentPage
 	{
