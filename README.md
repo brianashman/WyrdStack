@@ -20,7 +20,7 @@ WyrdStack centralizes infrastructure telemetry, hypervisor metrics, and maintena
 
 ---
 
-## 📂 Project Structure
+## 📂 Planned Project Structure
 
 ```text
 WyrdStack/
@@ -28,6 +28,5 @@ WyrdStack/
 │   ├── WyrdStack.Api/         # REST API & Gateway
 │   ├── WyrdStack.Maui/        # .NET MAUI Native Client
 │   ├── WyrdStack.Blazor/      # Blazor Web Client
-│   └── WyrdStack.Shared/      # Shared Domain DTOs
 ├── docker-compose.yml         # Container Orchestration
 └── README.md
