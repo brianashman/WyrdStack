@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="WyrdStack.Api/WyrdStack.Api.csproj" />
+  <Project Path="WyrdStack.Maui/WyrdStack.Maui.csproj" Id="1104ad3d-cf2c-4d51-87c4-3b1686b50c5c" />
 </Solution>
