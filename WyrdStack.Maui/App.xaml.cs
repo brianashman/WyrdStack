@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using WyrdStack.Maui.Views;
 
 namespace WyrdStack.Maui
 {
@@ -8,10 +9,17 @@ namespace WyrdStack.Maui
 		{
 			InitializeComponent();
 		}
-
 		protected override Window CreateWindow(IActivationState? activationState)
 		{
-			return new Window(new AppShell());
+			var token = SecureStorage.Default.GetAsync("auth_token").Result;
+			if(token == null)
+			{
+				return new Window(new LoginPage());
+			}
+			else
+			{
+				return new Window(new AppShell());
+			}
 		}
 	}
 }
