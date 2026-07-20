@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WyrdStack.Maui.ViewModels
 {
-	public partial class MainPageViewModel : BaseViewModel
+	public partial class LoginPageViewModel: BaseViewModel
 	{
 	}
 }

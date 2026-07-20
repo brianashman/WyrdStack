@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using WyrdStack.Maui.ViewModels;
+using WyrdStack.Maui.Views;
 
 namespace WyrdStack.Maui
 {
@@ -20,6 +22,23 @@ namespace WyrdStack.Maui
 #if DEBUG
 			builder.Logging.AddDebug();
 #endif
+
+			#region DI Injection
+
+			// Views
+			builder.Services.AddTransient<MainPage>();
+			builder.Services.AddTransient<LoginPage>();
+
+			// ViewModels
+			builder.Services.AddTransient<MainPageViewModel>();
+			builder.Services.AddTransient<LoginPageViewModel>();
+
+
+			// Services
+
+
+
+			#endregion
 
 			return builder.Build();
 		}

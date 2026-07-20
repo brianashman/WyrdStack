@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WyrdStack.Maui.ViewModels
 {
-	public class BaseViewModel: ObservableObject
+	public abstract partial class BaseViewModel: ObservableObject
 	{
 	}
 }
