@@ -21,6 +21,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
 	options.Password.RequireDigit = true;
 	
 	options.User.RequireUniqueEmail = false;
+	options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 }
 ).AddEntityFrameworkStores<DataContext>();
 

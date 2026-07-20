@@ -8,6 +8,11 @@ namespace WyrdStack.Maui.ViewModels
 {
 	public partial class LoginPageViewModel: BaseViewModel
 	{
+
+		[ObservableProperty]
+		private string loginStatusMessage = string.Empty;
+
+
 		[ObservableProperty]
 		private bool isPassword = true;
 		[ObservableProperty]
@@ -17,10 +22,64 @@ namespace WyrdStack.Maui.ViewModels
 			Password = value.Trim();
 		}
 
-		[RelayCommand]
-		private void TogglePasswordVisibility()
+		[RelayCommand] private void TogglePasswordVisibility() => IsPassword = !IsPassword;
+		
+		private bool CheckUsername(string username)
 		{
-			IsPassword = !IsPassword;
+			// Implementation for checking username
+			if(string.IsNullOrEmpty(username))
+			{
+				LoginStatusMessage = "Username is required.";
+				return false;
+			}
+
+			const string allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+			if(username.Any(c => !allowedCharacters.Contains(c)))
+			{
+				LoginStatusMessage = "Username can only contain letters, numbers, hyphens, and underscores.";
+				return false;
+			}
+			return true;
+		}
+		private bool CheckPassword(string password)
+		{
+			// Implementation for checking password
+			if(string.IsNullOrEmpty(password))
+			{
+				LoginStatusMessage = "Password is required.";
+				return false;
+			}
+
+			if(password.Length < 8)
+			{
+				LoginStatusMessage = "Password must be at least 8 characters long.";
+				return false;
+			}
+
+			var hasUppercase = password.Any(char.IsUpper);
+			if(!hasUppercase) LoginStatusMessage = "You must have at least one uppercase letter in your password.";
+
+			var hasLowercase = password.Any(char.IsLower);
+			if (!hasLowercase) LoginStatusMessage = "You must have at least one lowercase letter in your password.";
+
+			var hasDigit = password.Any(char.IsDigit);
+			if(!hasDigit) LoginStatusMessage = "You must have at least one digit in your password.";
+
+			return hasUppercase && hasLowercase && hasDigit;
+		}
+
+		[RelayCommand] private void Login(string username)
+		{
+			bool checks_passed = false;
+			if (CheckUsername(username) is false || CheckPassword(Password) is false)
+			{
+				checks_passed = false;
+			}
+			else
+			{
+				checks_passed = true;
+				LoginStatusMessage = string.Empty;
+			}
 		}
 	}
 }
