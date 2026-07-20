@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WyrdStack.Maui.Views.LoginPage"
              Title="LoginPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .Login"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView Padding="20" VerticalOptions="Fill" HorizontalOptions="Fill">
+        <Border>
+            <Label 
+                Text="Welcome to .Login"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        </Border>
+    </ScrollView>
 </ContentPage>
