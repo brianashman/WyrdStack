@@ -23,6 +23,6 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		[RelayCommand]
 		public void TogglePasswordVisibility() => IsPassword = !IsPassword;
 
-		[RelayCommand] private void ExecuteActionButton() { }
+		[RelayCommand] protected virtual void ExecuteActionButton() { }
 	}
 }
