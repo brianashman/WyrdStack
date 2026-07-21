@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using WyrdStack.Maui.ViewModels;
+using WyrdStack.Maui.ViewModels.Auth;
 using WyrdStack.Maui.Views;
+using WyrdStack.Maui.Views.Auth;
 
 namespace WyrdStack.Maui
 {

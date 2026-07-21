@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WyrdStack.Maui.ViewModels
+namespace WyrdStack.Maui.ViewModels.Auth
 {
 	public partial class LoginPageViewModel: BaseViewModel
 	{
@@ -12,6 +12,14 @@ namespace WyrdStack.Maui.ViewModels
 		[ObservableProperty]
 		private string loginStatusMessage = string.Empty;
 
+
+
+		[ObservableProperty]
+		private string username = string.Empty;
+		partial void OnUsernameChanged(string? oldValue, string newValue)
+		{
+			Username = newValue.Trim();
+		}
 
 		[ObservableProperty]
 		private bool isPassword = true;
@@ -68,10 +76,10 @@ namespace WyrdStack.Maui.ViewModels
 			return hasUppercase && hasLowercase && hasDigit;
 		}
 
-		[RelayCommand] private void Login(string username)
+		[RelayCommand] private void Login()
 		{
 			bool checks_passed = false;
-			if (CheckUsername(username) is false || CheckPassword(Password) is false)
+			if (CheckUsername(Username) is false || CheckPassword(Password) is false)
 			{
 				checks_passed = false;
 			}
