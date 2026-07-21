@@ -7,5 +7,6 @@ namespace WyrdStack.Maui.ViewModels
 {
 	public abstract partial class BaseViewModel: ObservableObject
 	{
+		public virtual void OnNavigatedTo(object parameter) { }
 	}
 }
