@@ -6,6 +6,7 @@ using System.Text;
 
 namespace WyrdStack.Maui.ViewModels.Auth
 {
+	//BaseModel for the AuthCardComponent, which is used in the LoginPage and RegisterPage
 	public abstract partial class AuthCardComponentViewModel: BaseViewModel
 	{
 		[ObservableProperty] public partial string Title { get; set; }
@@ -38,5 +39,7 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		public void TogglePasswordVisibility() => IsPassword = !IsPassword;
 
 		[RelayCommand] protected virtual void ExecuteActionButton() { }
+
+		[RelayCommand] protected async virtual void NavigateToAsync() { }
 	}
 }

@@ -75,14 +75,19 @@
 
 	<ItemGroup>
 	  <Folder Include="Models\" />
-	  <Folder Include="Services\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Auth\RegisterPage.xaml.cs">
+	    <DependentUpon>RegisterPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\Auth\AuthCardComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Auth\CreateAccountPage.xaml">
+	  <MauiXaml Update="Views\Auth\RegisterPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Auth\LoginPage.xaml">

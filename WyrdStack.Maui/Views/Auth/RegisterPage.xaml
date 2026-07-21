@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:WyrdStack.Maui.Views;assembly=WyrdStack.Maui"
+             x:Class="WyrdStack.Maui.Views.Auth.RegisterPage"
+             Title="RegisterPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Sign In"/>
+    </ContentPage.ToolbarItems>
+    <components:AuthCardComponent x:Name="AuthCard"/>
+</ContentPage>

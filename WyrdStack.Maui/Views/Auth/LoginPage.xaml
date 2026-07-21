@@ -6,7 +6,7 @@
              x:Class="WyrdStack.Maui.Views.Auth.LoginPage"
              Title="" x:DataType="vm:LoginPageViewModel" >
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Create Account"/>
+        <ToolbarItem Text="Create Account" Command="{Binding NavigateCommand}"/>
     </ContentPage.ToolbarItems>
     <components:AuthCardComponent x:Name="AuthCard"/>
 
