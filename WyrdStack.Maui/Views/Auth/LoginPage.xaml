@@ -2,75 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:WyrdStack.Maui.ViewModels.Auth"
+             xmlns:components="clr-namespace:WyrdStack.Maui.Views.Auth"
              x:Class="WyrdStack.Maui.Views.Auth.LoginPage"
              Title="" x:DataType="vm:LoginPageViewModel" >
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Create Account"/>
     </ContentPage.ToolbarItems>
-    <Grid>
-        <Border 
-                Background="White" 
-                Stroke="#E1E4E8" 
-                StrokeThickness="1" 
-                StrokeShape="RoundRectangle 12" 
-                Margin="20" Padding="20"
-                x:Name="LoginBorder"
-                HorizontalOptions="Center"
-                VerticalOptions="Center" >
-
-            <Border.Shadow>
-                <Shadow Brush="Black" Offset="0,4" Radius="10" Opacity="0.1" />
-            </Border.Shadow>
-
-            
-            <VerticalStackLayout Padding="0,20" Spacing="15">
-
-                <Label Text="Sign In" 
-                       FontSize="28" 
-                       FontAttributes="Bold" 
-                       TextColor="#2D3436"
-                       HorizontalOptions="Center" />
-
-                <Entry x:Name="UsernameEntry" 
-                       Placeholder="Username" 
-                       MaxLength="20"
-                       BackgroundColor="#F8F9FA"
-                       TextColor="#2D3436"
-                       Text="{Binding Username}"/>
-
-                <Entry x:Name="PasswordEntry" 
-                       Placeholder="Password" 
-                       IsPassword="{Binding IsPassword}" 
-                       BackgroundColor="#F8F9FA"
-                       TextColor="#2D3436"
-                       Text="{Binding Password}" 
-                       MaxLength="64"/>
-
-                <HorizontalStackLayout Spacing="8">
-                    <CheckBox x:Name="ShowPasswordCheckBox" 
-                              Color="#0984E3"
-                              Command="{Binding TogglePasswordVisibilityCommand}" />
-                    <Label Text="Show Password" 
-                           TextColor="#636E72"
-                           VerticalOptions="Center" />
-                </HorizontalStackLayout>
-
-                <Button Text="Login" 
-                        Command="{Binding LoginCommand}" 
-                        CommandParameter="{Binding Source={x:Reference UsernameEntry}, Path=Text}"
-                        BackgroundColor="#0984E3"
-                        TextColor="White"
-                        CornerRadius="8"
-                        HeightRequest="45"
-                        FontAttributes="Bold"/>
-
-                <Label Text="{Binding LoginStatusMessage}" 
-                       TextColor="#D63031" 
-                       HorizontalOptions="Center" 
-                       FontSize="12"/>
-
-            </VerticalStackLayout>
-        </Border>
-    </Grid>
+    <components:AuthCardComponent x:Name="AuthCard"/>
 
 </ContentPage>
