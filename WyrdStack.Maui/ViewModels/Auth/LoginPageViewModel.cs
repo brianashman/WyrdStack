@@ -70,34 +70,5 @@ namespace WyrdStack.Maui.ViewModels.Auth
 				StatusMessage = string.Empty;
 			}
 		}
-
-		//[ObservableProperty]
-		//private string loginStatusMessage = string.Empty;
-
-
-
-		//[ObservableProperty]
-		//private string username = string.Empty;
-		//partial void OnUsernameChanged(string? oldValue, string newValue)
-		//{
-		//	Username = newValue.Trim();
-		//}
-
-		//[ObservableProperty]
-		//private bool isPassword = true;
-		//[ObservableProperty]
-		//private string password = string.Empty;
-		//partial void OnPasswordChanged(string value)
-		//{
-		//	Password = value.Trim();
-		//}
-
-		//[RelayCommand] private void TogglePasswordVisibility() => IsPassword = !IsPassword;
-		
-		
-		//[RelayCommand] private void Login()
-		//{
-		//	
-		//}
 	}
 }
