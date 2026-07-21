@@ -11,8 +11,22 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		[ObservableProperty] public partial string Title { get; set; }
 		
 		[ObservableProperty] public partial string Username { get; set; }
+		partial void OnUsernameChanged(string oldValue, string newValue)
+		{
+			if(newValue?.Contains(" ") is true)
+			{
+				Username = newValue.Replace(" ", "");
+			}
+		}
 
 		[ObservableProperty] public partial string Password { get; set; }
+		partial void OnPasswordChanged(string oldValue, string newValue)
+		{
+			if(newValue?.Contains(" ") is true)
+			{
+				Password = newValue.Replace(" ", "");
+			}
+		}
 
 		[ObservableProperty] public partial bool IsPassword { get; set; }
 

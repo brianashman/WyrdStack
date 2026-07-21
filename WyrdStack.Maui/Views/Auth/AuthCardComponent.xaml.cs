@@ -15,14 +15,4 @@ public partial class AuthCardComponent : ContentView
 			AuthBorder.HeightRequest = height * 0.6;
 		}
 	}
-
-	private void UsernameEntry_Unfocused(object sender, FocusEventArgs e)
-	{
-
-	}
-
-	private void PasswordEntry_Unfocused(object sender, FocusEventArgs e)
-	{
-
-	}
 }
