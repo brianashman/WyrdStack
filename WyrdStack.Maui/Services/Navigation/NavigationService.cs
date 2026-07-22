@@ -12,6 +12,17 @@ namespace WyrdStack.Maui.Services.Navigation
 		{
 			_serviceProvider = serviceProvider;
 		}
+
+		public async Task GoBackAsync<TPage>() where TPage : Page
+		{
+			var page = _serviceProvider.GetService<TPage>();
+			if (page is not null)
+			{
+				await Shell.Current.Navigation.PopAsync();
+			}
+			else return;
+		}
+
 		public async Task GoToAsync<TPage>() where TPage: Page
 		{
 			
