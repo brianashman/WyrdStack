@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using WyrdStack.Maui.Services.Navigation;
 using WyrdStack.Maui.ViewModels;
 using WyrdStack.Maui.ViewModels.Auth;
 using WyrdStack.Maui.Views;
@@ -37,7 +38,7 @@ namespace WyrdStack.Maui
 
 
 			// Services
-
+			builder.Services.AddSingleton<INavigationService, NavigationService>();
 
 
 			#endregion
