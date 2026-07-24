@@ -2,7 +2,7 @@
 
 namespace WyrdStack.Api.Services
 {
-	public interface IAuthService
+	public interface IUserService
 	{
 		public Task<List<IdentityUser>> GetAllAsync();
 		public Task<IdentityUser?> GetAsync(string id);

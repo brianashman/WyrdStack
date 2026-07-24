@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using WyrdStack.Api.Controllers;
 using WyrdStack.Api.Data;
 using WyrdStack.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<AuthController>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WyrdStack.Api.Services
 {
-	public class AuthService : IAuthService
+	public class UserService : IUserService
 	{
 		private readonly UserManager<IdentityUser> _userManager;
-		public AuthService(UserManager<IdentityUser> userManager)
+		private readonly SignInManager<IdentityUser> _signInManager;
+		public UserService(UserManager<IdentityUser> userManager)
 		{
 			_userManager = userManager;
 		}
