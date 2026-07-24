@@ -3,12 +3,17 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WyrdStack.Maui.Services.Navigation;
+using WyrdStack.Maui.Views.Auth;
 
 namespace WyrdStack.Maui.ViewModels.Auth
 {
 	public partial class LoginPageViewModel: AuthCardComponentViewModel
 	{
-		public LoginPageViewModel() {
+		private readonly INavigationService _navigationService;
+		public LoginPageViewModel(INavigationService _service)
+		{
+			_navigationService = _service;
 			Title = "Login";
 			ActionButtonText = "Sign In";
 			IsPassword = true;
@@ -59,16 +64,12 @@ namespace WyrdStack.Maui.ViewModels.Auth
 
 		protected override void ExecuteActionButton()
 		{
-			bool checks_passed = false;
-			if (CheckUsername(Username) is false || CheckPassword(Password) is false)
-			{
-				checks_passed = false;
-			}
-			else
-			{
-				checks_passed = true;
-				StatusMessage = string.Empty;
-			}
+			if (CheckUsername(Username) is false || CheckPassword(Password) is false) return;
+			else StatusMessage = string.Empty;
+		}
+		protected override async Task NavigateToAsync()
+		{
+			await _navigationService.GoToAbsoluteAsync("RegisterPage");
 		}
 	}
 }

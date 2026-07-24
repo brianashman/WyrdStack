@@ -14,15 +14,7 @@ namespace WyrdStack.Maui
 		}
 		protected override Window CreateWindow(IActivationState? activationState)
 		{
-			var token = SecureStorage.Default.GetAsync("auth_token").Result;
-			if(token == null)
-			{
-				return new Window(new NavigationPage(_serviceProvider.GetRequiredService<LoginPage>()));
-			}
-			else
-			{
-				return new Window(_serviceProvider.GetRequiredService<AppShell>());
-			}
+			return new Window(_serviceProvider.GetRequiredService<AppShell>());
 		}
 	}
 }

@@ -4,9 +4,11 @@
              xmlns:vm="clr-namespace:WyrdStack.Maui.ViewModels.Auth"
              xmlns:components="clr-namespace:WyrdStack.Maui.Views.Auth"
              x:Class="WyrdStack.Maui.Views.Auth.LoginPage"
-             Title="" x:DataType="vm:LoginPageViewModel" >
+             Title="" x:DataType="vm:LoginPageViewModel" 
+             Shell.BackButtonBehavior="{BackButtonBehavior IsEnabled=False, IsVisible=False}"
+             Shell.FlyoutBehavior="Disabled">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Create Account" Command="{Binding NavigateCommand}"/>
+        <ToolbarItem Text="Create Account" Command="{Binding NavigateToCommand}"/>
     </ContentPage.ToolbarItems>
     <components:AuthCardComponent x:Name="AuthCard"/>
 

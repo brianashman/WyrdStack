@@ -31,11 +31,13 @@ namespace WyrdStack.Maui
 			// Views
 			builder.Services.AddTransient<MainPage>();
 			builder.Services.AddTransient<LoginPage>();
+			builder.Services.AddTransient<RegisterPage>();
+			builder.Services.AddTransient<AppShell>();
 
 			// ViewModels
 			builder.Services.AddTransient<MainPageViewModel>();
 			builder.Services.AddTransient<LoginPageViewModel>();
-
+			builder.Services.AddTransient<RegisterPageViewModel>();
 
 			// Services
 			builder.Services.AddSingleton<INavigationService, NavigationService>();

@@ -40,6 +40,6 @@ namespace WyrdStack.Maui.ViewModels.Auth
 
 		[RelayCommand] protected virtual void ExecuteActionButton() { }
 
-		[RelayCommand] protected async virtual void NavigateToAsync() { }
+		[RelayCommand] protected virtual async Task NavigateToAsync() { }
 	}
 }

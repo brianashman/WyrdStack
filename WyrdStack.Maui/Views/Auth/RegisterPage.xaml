@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:components="clr-namespace:WyrdStack.Maui.Views;assembly=WyrdStack.Maui"
+             xmlns:vm="clr-namespace:WyrdStack.Maui.ViewModels.Auth;assembly=WyrdStack.Maui"
+             xmlns:components="clr-namespace:WyrdStack.Maui.Views.Auth;assembly=WyrdStack.Maui"
              x:Class="WyrdStack.Maui.Views.Auth.RegisterPage"
-             Title="RegisterPage">
+             x:DataType="vm:RegisterPageViewModel"
+             Shell.BackButtonBehavior="{BackButtonBehavior IsEnabled=False, IsVisible=False}"
+             Shell.FlyoutBehavior="Disabled">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Sign In"/>
+        <ToolbarItem Text="Sign In" Command="{Binding NavigateToCommand}"/>
     </ContentPage.ToolbarItems>
     <components:AuthCardComponent x:Name="AuthCard"/>
 </ContentPage>
