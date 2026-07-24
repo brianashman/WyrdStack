@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 #local
 appsettings.Development.json
+
+#other
+.idea/
