@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApplication.ViewModels"
+             xmlns:mdl="using:AvaloniaApplication.Models"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaApplication.Views.MainView"
+             x:DataType="vm:MainViewModel">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+    <!--
+    <ui:FATeachingTip Title="Welcome!"
+                      Subtitle="Click here to begin"
+                      IsOpen="True"/>
+    -->
+    <!--
+    <ui:FATabView >
+        <ui:FATabViewItem Header="Home"/>
+        <ui:FATabViewItem Header="Settings"/>
+    </ui:FATabView>
+    -->
+
+
+
+    
+    <ui:FANavigationView PaneDisplayMode="Auto"
+                         OpenPaneLength="300"
+                         CompactPaneLength="48"
+                         IsPaneOpen="{Binding IsPaneOpen}"
+                         IsSettingsVisible="True"
+                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                         MenuItemsSource="{Binding SideBarItems}">
+        
+        <ui:FANavigationView.MenuItemTemplate>
+            <DataTemplate x:DataType="mdl:SideBarItem">
+                <ui:FANavigationViewItem Margin="-5,0,0,0"
+                                         Tag="{Binding Title}">
+                    <ui:FANavigationViewItem.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="15">
+                            <Path Data="{Binding IconKey, Converter={StaticResource IconConverter}}"
+                                  Height="20" Width="20" Fill="Blue" Stretch="Uniform"/>
+                            <TextBlock Text="{Binding Title}"/>
+                        </StackPanel>
+                    </ui:FANavigationViewItem.Content>
+                </ui:FANavigationViewItem>
+            </DataTemplate>
+        </ui:FANavigationView.MenuItemTemplate>
+        <ui:FANavigationView.Content>
+            <ui:FAFrame Content="{Binding CurrentPage}" />
+        </ui:FANavigationView.Content>
+    </ui:FANavigationView>
+</UserControl>

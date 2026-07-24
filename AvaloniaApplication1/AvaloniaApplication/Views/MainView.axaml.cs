@@ -1,18 +1,18 @@
-﻿using Avalonia;
+using System;
+using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using AvaloniaApplication.ViewModels;
 
 namespace AvaloniaApplication.Views;
 
-public partial class AllNotesView : UserControl
+public partial class MainView : UserControl
 {
-    public AllNotesView()
+    public MainView()
     {
         InitializeComponent();
     }
 
-    public AllNotesView(AllNotesViewModel viewModel)
+    public MainView(MainViewModel viewModel)
     {
         InitializeComponent();
         DataContext = viewModel;

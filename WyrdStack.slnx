@@ -1,4 +1,15 @@
 <Solution>
+  <Folder Name="/WyrdStack.Avalonia/">
+    <Project Path="AvaloniaApplication1/AvaloniaApplication.Android/AvaloniaApplication.Android.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="AvaloniaApplication1/AvaloniaApplication.Browser/AvaloniaApplication.Browser.csproj" />
+    <Project Path="AvaloniaApplication1/AvaloniaApplication.iOS/AvaloniaApplication.iOS.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="AvaloniaApplication1/AvaloniaApplication/AvaloniaApplication.csproj" />
+    <Project Path="AvaloniaApplication1/AvaloniaApplication1.Desktop/AvaloniaApplication1.Desktop.csproj" />
+  </Folder>
   <Project Path="WyrdStack.Api/WyrdStack.Api.csproj" />
   <Project Path="WyrdStack.Maui/WyrdStack.Maui.csproj" Id="1104ad3d-cf2c-4d51-87c4-3b1686b50c5c" />
 </Solution>

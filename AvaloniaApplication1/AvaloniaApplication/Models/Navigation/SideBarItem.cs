@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AvaloniaApplication1.Models;
+namespace AvaloniaApplication.Models;
 
 public class SideBarItem
 {

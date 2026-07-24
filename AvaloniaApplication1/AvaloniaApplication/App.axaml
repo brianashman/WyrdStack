@@ -1,0 +1,25 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:AvaloniaApplication"
+             xmlns:converters="using:AvaloniaApplication.Converters"
+             xmlns:sty="using:FluentAvalonia.Styling"
+             x:Class="AvaloniaApplication.App"
+             RequestedThemeVariant="Default">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             
+    <Application.Resources>
+        <ResourceDictionary>
+            <converters:IconConverter x:Key="IconConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="Assets/Resources/Resources.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <sty:FluentAvaloniaTheme PreferUserAccentColor="True"/>
+    </Application.Styles>
+</Application>

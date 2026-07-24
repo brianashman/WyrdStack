@@ -4,7 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 
-namespace AvaloniaApplication1.Converters;
+namespace AvaloniaApplication.Converters;
 
 public class IconConverter : IValueConverter
 {

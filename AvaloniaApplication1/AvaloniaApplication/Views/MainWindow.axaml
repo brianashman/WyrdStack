@@ -1,0 +1,10 @@
+<fa:FAAppWindow xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                x:Class="AvaloniaApplication.Views.MainWindow"
+                MinHeight="400" MinWidth="400"
+                Icon="/Assets/avalonia-logo.ico"
+                xmlns:fa="using:FluentAvalonia.UI.Windowing"
+                Title="AvaloniaApplication">
+    <ContentControl x:Name="MainContent"/>
+
+</fa:FAAppWindow>
