@@ -19,6 +19,14 @@ namespace WyrdStack.Maui.ViewModels.Auth
 				Email = newValue.Replace(" ", "");
 			}
 		}
+		[ObservableProperty] public partial string Username { get; set; }
+		partial void OnUsernameChanged(string oldValue, string newValue)
+		{
+			if(newValue?.Contains(" ") is true)
+			{
+				Username = newValue.Replace(" ", "");
+			}
+		}
 
 		[ObservableProperty] public partial string Password { get; set; }
 		partial void OnPasswordChanged(string oldValue, string newValue)
@@ -32,8 +40,9 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		[ObservableProperty] public partial bool IsPassword { get; set; }
 
 		[ObservableProperty] public partial string ActionButtonText { get; set; }
-
+		[ObservableProperty] public partial bool HasUsernameEntry { get; set; }
 		[ObservableProperty] public partial string StatusMessage { get; set; }
+		[ObservableProperty] public partial bool IsLoading { get; set; }
 
 		[RelayCommand]
 		public void TogglePasswordVisibility() => IsPassword = !IsPassword;

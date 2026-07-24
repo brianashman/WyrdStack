@@ -17,10 +17,6 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		private readonly INavigationService _navigationService;
 		private readonly IApiClient _apiClient;
 
-		// Observable property to control hiding the card / showing the loading indicator
-		[ObservableProperty]
-		private bool isLoading;
-
 		public LoginPageViewModel(INavigationService service, IApiClient apiClient)
 		{
 			_navigationService = service;
@@ -28,9 +24,11 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			Title = "Login";
 			ActionButtonText = "Sign In";
 			IsPassword = true;
+			IsLoading = false;
+			HasUsernameEntry = false;
 		}
 
-		private bool CheckUsername(string username)
+		private bool CheckEmail(string username)
 		{
 			if (string.IsNullOrEmpty(username))
 			{
@@ -84,7 +82,7 @@ namespace WyrdStack.Maui.ViewModels.Auth
 
 		protected override async void ExecuteActionButton()
 		{
-			if (CheckUsername(Email) is false || CheckPassword(Password) is false) return;
+			if (CheckEmail(Email) is false || CheckPassword(Password) is false) return;
 
 			StatusMessage = string.Empty;
 			IsLoading = true; // Show loading screen / hide card

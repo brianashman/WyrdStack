@@ -8,6 +8,7 @@ using WyrdStack.Maui.Models.Dtos.Request;
 using WyrdStack.Maui.Services.Api;
 using WyrdStack.Maui.Services.Navigation;
 using WyrdStack.Maui.Views.Auth;
+using System.ComponentModel.DataAnnotations;
 
 namespace WyrdStack.Maui.ViewModels.Auth
 {
@@ -15,9 +16,6 @@ namespace WyrdStack.Maui.ViewModels.Auth
 	{
 		private readonly INavigationService _navigationService;
 		private readonly IApiClient _client;
-
-		[ObservableProperty]
-		private bool isLoading;
 		public RegisterPageViewModel(INavigationService _service, IApiClient _apiClient)
 		{
 			_navigationService = _service;
@@ -25,6 +23,23 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			Title = "Register Account";
 			ActionButtonText = "Create Account";
 			IsPassword = true;
+			IsLoading = false;
+			HasUsernameEntry = true;
+		}
+		private bool CheckEmail(string email)
+		{
+			if (string.IsNullOrEmpty(email))
+			{
+				StatusMessage = "Email is required.";
+				return false;
+			}
+			var emailAttribute = new EmailAddressAttribute();
+			if (!emailAttribute.IsValid(email))
+			{
+				StatusMessage = "Invalid email format.";
+				return false;
+			}
+			return true;
 		}
 		private bool CheckUsername(string username)
 		{
@@ -32,6 +47,11 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			if (string.IsNullOrEmpty(username))
 			{
 				StatusMessage = "Username is required.";
+				return false;
+			}
+			if(username.Length < 3)
+			{
+				StatusMessage = "Username must be at least 3 characters long.";
 				return false;
 			}
 
@@ -71,15 +91,16 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		}
 		protected override async void ExecuteActionButton()
 		{
-			if (CheckUsername(Email) is false || CheckPassword(Password) is false) return;
+			if (CheckEmail(Email) is false || CheckUsername(Username) is false || CheckPassword(Password) is false) return;
 			else StatusMessage = string.Empty;
 			IsLoading = true;
 			try
 			{
-				var request = new CreateUserRequest { Email = Email, Username = Email, Password = Password };
+				var request = new CreateUserRequest { Email = Email, Username = Username, Password = Password };
 				var response = await _client.CreateUserAsync(request);
 
 				if(response is not null) StatusMessage = "User created successfully.";
+				await _navigationService.GoToAbsoluteAsync("MainPage");
 			}
 			catch (ApiException ex)
 			{

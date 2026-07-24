@@ -5,6 +5,17 @@ public partial class AuthCardComponent : ContentView
 	public AuthCardComponent()
 	{
 		InitializeComponent();
+		//PointerGestureRecognizer pointerGestureRecognizer = new PointerGestureRecognizer();
+		//ActionButton.GestureRecognizers.Add(pointerGestureRecognizer);
+		//pointerGestureRecognizer.PointerEntered += (s, e) =>
+		//{
+		//	ActionButton.BackgroundColor = Color.FromArgb("#1E90FF");
+		//};
+		//pointerGestureRecognizer.PointerExited += (s, e) =>
+		//{
+		//	ActionButton.BackgroundColor = Color.FromArgb("#007BFF");
+
+		//};
 	}
 	protected override void OnSizeAllocated(double width, double height)
 	{

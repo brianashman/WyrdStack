@@ -29,10 +29,17 @@
 
             <Entry x:Name="EmailEntry" 
                    Placeholder="Email" 
-                   MaxLength="20" 
+                   MaxLength="64" 
                    BackgroundColor="#F8F9FA"
                    TextColor="#2D3436"
                    Text="{Binding Email}"/>
+            <Entry x:Name="UsernameEntry" 
+                   Placeholder="Username" 
+                   MaxLength="64" 
+                   BackgroundColor="#F8F9FA"
+                   TextColor="#2D3436"
+                   IsVisible="{Binding HasUsernameEntry}"
+                   Text="{Binding Username}"/>
 
             <Entry x:Name="PasswordEntry" 
                    Placeholder="Password" 
@@ -54,16 +61,38 @@
             <Button Text="{Binding ActionButtonText}" 
                     Command="{Binding ExecuteActionButtonCommand}" 
                     CommandParameter="{Binding Source={x:Reference EmailEntry}, Path=Text}"
+                    x:Name="ActionButton"
                     BackgroundColor="#0984E3"
                     TextColor="White"
                     CornerRadius="8"
                     HeightRequest="45"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#74b9ff" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="0.98" />
+                                <Setter Property="BackgroundColor" Value="#0984E3" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
 
             <Label Text="{Binding StatusMessage}" 
                    TextColor="#D63031" 
                    HorizontalOptions="Center" 
                    FontSize="12"/>
+            <ActivityIndicator IsRunning="{Binding IsLoading}" 
+                   IsVisible="{Binding IsLoading}" 
+                   Color="#0984E3" 
+                   HeightRequest="40" 
+                   HorizontalOptions="Center" />
         </VerticalStackLayout>
     </Border>
 </ContentView>
