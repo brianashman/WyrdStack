@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WyrdStack.Api.Mappers.UserAuth;
+using WyrdStack.Api.Models.Dtos;
+using WyrdStack.Api.Models.Dtos.Users.Request;
 using WyrdStack.Api.Services;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WyrdStack.Api.Controllers
 {
@@ -11,55 +13,94 @@ namespace WyrdStack.Api.Controllers
 	public class UserController : ControllerBase
 	{
 		private readonly IUserService _userService;
-		public UserController(IUserService userService)
+		private readonly IUserMapper _userMapper;
+
+		public UserController(IUserService userService, IUserMapper userMapper)
 		{
 			_userService = userService;
+			_userMapper = userMapper;
 		}
 
 		[HttpGet]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> GetAllUsers(int id)
+		public async Task<IActionResult> GetAllUsers()
 		{
-			var user = await _userService.GetAsync(id.ToString());
-			if (user is null) return NotFound();
-			//return Ok(user);
+			var users = await _userService.GetAllAsync();
+			if (users is null) return NotFound();
+
+			var userDtos = users.Select(_userMapper.ToGetUserDTO).ToList();
+
+			return Ok(userDtos);
 		}
 
 		[HttpGet("{id}")]
-		[Authorize(Roles = "User")]
-		public async Task<IActionResult> GetUserById(int id)
+		[Authorize(Roles = "User,Admin")]
+		public async Task<IActionResult> GetUserById(string id)
 		{
-			var user = await _userService.GetAsync(id.ToString()); 
+			if (!IsOwnerOrAdmin(id)) return Forbid();
+
+			var user = await _userService.GetAsync(id);
 			if (user is null) return NotFound();
-			//return Ok(user);
-		}
-		[HttpPost("register_with_username")]
-		public async Task<IActionResult> PostUser([FromBody] string value)
-		{
-			
-			//return Ok();
+
+			var getUserDTO = _userMapper.ToGetUserDTO(user);
+			if (getUserDTO.Id is null || getUserDTO.Email is null || getUserDTO.Username is null)
+				return BadRequest();
+
+			return Ok(getUserDTO);
 		}
 
-		[HttpPut("{id}")]
-		[Authorize(Roles = "User")]
-		public async Task<IActionResult> PutUser(int id, [FromBody] string value)
+		[HttpPost("register_with_username")]
+		public async Task<IActionResult> PostUser(CreateUserDTO value)
 		{
-			return Ok();	
+			var mapIdentity = _userMapper.ToIdentityUser(value);
+			if (mapIdentity is null) return BadRequest();
+
+			var result = await _userService.CreateAsync(mapIdentity, value.Password);
+			if (!result.Succeeded) return BadRequest(result.Errors);
+
+			var mapResponse = _userMapper.ToCreateResponse(mapIdentity.Id, value);
+			return Ok(mapResponse);
+		}
+
+		[HttpPatch("{id}")]
+		[Authorize(Roles = "User,Admin")]
+		public async Task<IActionResult> PatchUser(string id, UpdateUserDTO value)
+		{
+			if (!IsOwnerOrAdmin(id)) return Forbid();
+
+			var result = await _userService.UpdateAsync(id, value);
+			if (!result.Succeeded) return BadRequest(result.Errors);
+
+			return Ok();
 		}
 
 		[HttpDelete("{id}")]
-		[Authorize(Roles = "User")]
-		public async Task<IActionResult> Delete(int id)
+		[Authorize(Roles = "User,Admin")]
+		public async Task<IActionResult> DeleteUser(string id)
 		{
+			if (!IsOwnerOrAdmin(id)) return Forbid();
+
+			var result = await _userService.DeleteAsync(id);
+			if (!result) return BadRequest();
+
 			return Ok();
 		}
 
 		[HttpPatch("change-password")]
 		[Authorize(Roles = "User")]
-		public async Task<IActionResult> ChangePassword(int id, string oldPassword, string newPassword)
+		public async Task<IActionResult> ChangePassword(ChangePasswordDTO value)
 		{
-			var result = await _userService.ChangePasswordAsync(id.ToString(), oldPassword, newPassword);
-			return result ? Ok() : BadRequest();
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier);
+			if (userId is null) return Unauthorized();
+
+			var result = await _userService.ChangePasswordAsync(userId.Value, value.OldPassword, value.NewPassword);
+			return result.Succeeded ? Ok() : BadRequest(result.Errors);
+		}
+
+		private bool IsOwnerOrAdmin(string resourceUserId)
+		{
+			var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			return User.IsInRole("Admin") || currentUserId == resourceUserId;
 		}
 	}
 }
