@@ -2,7 +2,7 @@
 
 > Self-Hosted Homelab Operations Platform & Control Plane
 
-WyrdStack centralizes infrastructure telemetry, hypervisor metrics, and maintenance ticket workflows into a unified dashboard across web, desktop, and mobile.
+WyrdStack provides a unified, cross‑platform dashboard for viewing system information, managing resources, and organizing operational tasks.
 
 ---
 
