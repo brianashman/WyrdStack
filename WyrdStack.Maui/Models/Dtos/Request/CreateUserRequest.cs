@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WyrdStack.Maui.Models.Dtos
+namespace WyrdStack.Maui.Models.Dtos.Request
 {
 	public class CreateUserRequest
 	{

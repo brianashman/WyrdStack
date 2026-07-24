@@ -1,6 +1,11 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Refit;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using WyrdStack.Maui.Models.Dtos;
+using WyrdStack.Maui.Models.Dtos.Request;
+using WyrdStack.Maui.Services.Api;
 using WyrdStack.Maui.Services.Navigation;
 using WyrdStack.Maui.Views.Auth;
 
@@ -9,9 +14,14 @@ namespace WyrdStack.Maui.ViewModels.Auth
 	public partial class RegisterPageViewModel : AuthCardComponentViewModel
 	{
 		private readonly INavigationService _navigationService;
-		public RegisterPageViewModel(INavigationService _service)
+		private readonly IApiClient _client;
+
+		[ObservableProperty]
+		private bool isLoading;
+		public RegisterPageViewModel(INavigationService _service, IApiClient _apiClient)
 		{
 			_navigationService = _service;
+			_client = _apiClient;
 			Title = "Register Account";
 			ActionButtonText = "Create Account";
 			IsPassword = true;
@@ -59,10 +69,40 @@ namespace WyrdStack.Maui.ViewModels.Auth
 
 			return hasUppercase && hasLowercase && hasDigit;
 		}
-		protected override void ExecuteActionButton()
+		protected override async void ExecuteActionButton()
 		{
 			if (CheckUsername(Email) is false || CheckPassword(Password) is false) return;
 			else StatusMessage = string.Empty;
+			IsLoading = true;
+			try
+			{
+				var request = new CreateUserRequest { Email = Email, Username = Email, Password = Password };
+				var response = await _client.CreateUserAsync(request);
+
+				if(response is not null) StatusMessage = "User created successfully.";
+			}
+			catch (ApiException ex)
+			{
+				StatusMessage = ex.StatusCode == System.Net.HttpStatusCode.Unauthorized
+					? "Invalid email or password."
+					: $"API Error: {ex.StatusCode}";
+				IsLoading = false;
+			}
+			catch (HttpRequestException)
+			{
+				StatusMessage = "Server not reachable. Please check your connection.";
+				IsLoading = false;
+			}
+			catch (TaskCanceledException)
+			{
+				StatusMessage = "The request timed out. Please try again.";
+				IsLoading = false;
+			}
+			catch (Exception ex)
+			{
+				StatusMessage = $"An unexpected error occurred: {ex.Message}";
+				IsLoading = false;
+			}
 		}
 		protected override async Task NavigateToAsync()
 		{

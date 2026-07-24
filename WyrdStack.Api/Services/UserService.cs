@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WyrdStack.Api.Models.Dtos;
+using WyrdStack.Api.Models.Dtos.Users.Request;
 
 namespace WyrdStack.Api.Services
 {

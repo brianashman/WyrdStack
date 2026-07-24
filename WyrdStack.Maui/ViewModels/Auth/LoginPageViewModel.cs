@@ -1,26 +1,37 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Refit;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using WyrdStack.Maui.Services.Api;
 using WyrdStack.Maui.Services.Navigation;
 using WyrdStack.Maui.Views.Auth;
 
 namespace WyrdStack.Maui.ViewModels.Auth
 {
-	public partial class LoginPageViewModel: AuthCardComponentViewModel
+	public partial class LoginPageViewModel : AuthCardComponentViewModel
 	{
 		private readonly INavigationService _navigationService;
-		public LoginPageViewModel(INavigationService _service)
+		private readonly IApiClient _apiClient;
+
+		// Observable property to control hiding the card / showing the loading indicator
+		[ObservableProperty]
+		private bool isLoading;
+
+		public LoginPageViewModel(INavigationService service, IApiClient apiClient)
 		{
-			_navigationService = _service;
+			_navigationService = service;
+			_apiClient = apiClient;
 			Title = "Login";
 			ActionButtonText = "Sign In";
 			IsPassword = true;
 		}
+
 		private bool CheckUsername(string username)
 		{
-			// Implementation for checking username
 			if (string.IsNullOrEmpty(username))
 			{
 				StatusMessage = "Username is required.";
@@ -35,9 +46,9 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			}
 			return true;
 		}
+
 		private bool CheckPassword(string password)
 		{
-			// Implementation for checking password
 			if (string.IsNullOrEmpty(password))
 			{
 				StatusMessage = "Password is required.";
@@ -50,23 +61,73 @@ namespace WyrdStack.Maui.ViewModels.Auth
 				return false;
 			}
 
-			var hasUppercase = password.Any(char.IsUpper);
-			if (!hasUppercase) StatusMessage = "You must have at least one uppercase letter in your password.";
+			if (!password.Any(char.IsUpper))
+			{
+				StatusMessage = "You must have at least one uppercase letter in your password.";
+				return false;
+			}
 
-			var hasLowercase = password.Any(char.IsLower);
-			if (!hasLowercase) StatusMessage = "You must have at least one lowercase letter in your password.";
+			if (!password.Any(char.IsLower))
+			{
+				StatusMessage = "You must have at least one lowercase letter in your password.";
+				return false;
+			}
 
-			var hasDigit = password.Any(char.IsDigit);
-			if (!hasDigit) StatusMessage = "You must have at least one digit in your password.";
+			if (!password.Any(char.IsDigit))
+			{
+				StatusMessage = "You must have at least one digit in your password.";
+				return false;
+			}
 
-			return hasUppercase && hasLowercase && hasDigit;
+			return true;
 		}
 
-		protected override void ExecuteActionButton()
+		protected override async void ExecuteActionButton()
 		{
 			if (CheckUsername(Email) is false || CheckPassword(Password) is false) return;
-			else StatusMessage = string.Empty;
+
+			StatusMessage = string.Empty;
+			IsLoading = true; // Show loading screen / hide card
+
+			try
+			{
+				var response = await _apiClient.LoginAsync(new IdentityLoginRequest(Email, Password));
+
+				if (!string.IsNullOrEmpty(response?.AccessToken))
+				{
+					StatusMessage = "Success!";
+					await _navigationService.GoToAbsoluteAsync("//MainPage");
+				}
+				else
+				{
+					StatusMessage = "Server returned an empty response.";
+					IsLoading = false; // Restore card if it fails
+				}
+			}
+			catch (ApiException ex)
+			{
+				StatusMessage = ex.StatusCode == System.Net.HttpStatusCode.Unauthorized
+					? "Invalid email or password."
+					: $"API Error: {ex.StatusCode}";
+				IsLoading = false;
+			}
+			catch (HttpRequestException)
+			{
+				StatusMessage = "Server not reachable. Please check your connection.";
+				IsLoading = false;
+			}
+			catch (TaskCanceledException)
+			{
+				StatusMessage = "The request timed out. Please try again.";
+				IsLoading = false;
+			}
+			catch (Exception ex)
+			{
+				StatusMessage = $"An unexpected error occurred: {ex.Message}";
+				IsLoading = false;
+			}
 		}
+
 		protected override async Task NavigateToAsync()
 		{
 			await _navigationService.GoToAbsoluteAsync("RegisterPage");

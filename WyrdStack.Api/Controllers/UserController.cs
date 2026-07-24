@@ -87,7 +87,7 @@ namespace WyrdStack.Api.Controllers
 		}
 
 		[HttpPatch("change-password")]
-		[Authorize(Roles = "User")]
+		[Authorize(Roles = "User, Admin")]
 		public async Task<IActionResult> ChangePassword(ChangePasswordDTO value)
 		{
 			var userId = User.FindFirst(ClaimTypes.NameIdentifier);

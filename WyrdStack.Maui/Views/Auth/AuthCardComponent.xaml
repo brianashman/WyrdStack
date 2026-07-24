@@ -22,49 +22,48 @@
         <VerticalStackLayout Padding="0,20" Spacing="15">
 
             <Label Text="{Binding Title}" 
-           FontSize="28" 
-           FontAttributes="Bold" 
-           TextColor="#2D3436"
-           HorizontalOptions="Center" />
+                   FontSize="28" 
+                   FontAttributes="Bold" 
+                   TextColor="#2D3436"
+                   HorizontalOptions="Center" />
 
             <Entry x:Name="EmailEntry" 
-           Placeholder="Email" 
-           MaxLength="20" 
-           BackgroundColor="#F8F9FA"
-           TextColor="#2D3436"
-           Text="{Binding Email}"/>
+                   Placeholder="Email" 
+                   MaxLength="20" 
+                   BackgroundColor="#F8F9FA"
+                   TextColor="#2D3436"
+                   Text="{Binding Email}"/>
 
             <Entry x:Name="PasswordEntry" 
-           Placeholder="Password" 
-           IsPassword="{Binding IsPassword}" 
-           BackgroundColor="#F8F9FA"
-           TextColor="#2D3436"
-           Text="{Binding Password}" 
-           MaxLength="64" />
+                   Placeholder="Password" 
+                   IsPassword="{Binding IsPassword}" 
+                   BackgroundColor="#F8F9FA"
+                   TextColor="#2D3436"
+                   Text="{Binding Password}" 
+                   MaxLength="64" />
 
             <HorizontalStackLayout Spacing="8">
                 <CheckBox x:Name="ShowPasswordCheckBox" 
-                  Color="#0984E3"
-                  Command="{Binding TogglePasswordVisibilityCommand}" />
+                          Color="#0984E3"
+                          Command="{Binding TogglePasswordVisibilityCommand}" />
                 <Label Text="Show Password" 
-               TextColor="#636E72"
-               VerticalOptions="Center" />
+                       TextColor="#636E72"
+                       VerticalOptions="Center" />
             </HorizontalStackLayout>
 
             <Button Text="{Binding ActionButtonText}" 
-            Command="{Binding ExecuteActionButtonCommand}" 
-            CommandParameter="{Binding Source={x:Reference EmailEntry}, Path=Text}"
-            BackgroundColor="#0984E3"
-            TextColor="White"
-            CornerRadius="8"
-            HeightRequest="45"
-            FontAttributes="Bold"/>
+                    Command="{Binding ExecuteActionButtonCommand}" 
+                    CommandParameter="{Binding Source={x:Reference EmailEntry}, Path=Text}"
+                    BackgroundColor="#0984E3"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="45"
+                    FontAttributes="Bold"/>
 
             <Label Text="{Binding StatusMessage}" 
-           TextColor="#D63031" 
-           HorizontalOptions="Center" 
-           FontSize="12"/>
-
+                   TextColor="#D63031" 
+                   HorizontalOptions="Center" 
+                   FontSize="12"/>
         </VerticalStackLayout>
     </Border>
 </ContentView>

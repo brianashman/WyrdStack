@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using WyrdStack.Api.Models.Dtos;
 using WyrdStack.Api.Models.Dtos.Users.Request;
 using WyrdStack.Api.Models.Dtos.Users.Response;
 

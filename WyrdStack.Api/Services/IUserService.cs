@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using WyrdStack.Api.Models.Dtos;
+using WyrdStack.Api.Models.Dtos.Users.Request;
 
 namespace WyrdStack.Api.Services
 {
 	public interface IUserService
 	{
-		public Task<List<IdentityUser>> GetAllAsync();
-		public Task<IdentityUser?> GetAsync(string id);
-		public Task<IdentityResult> CreateAsync(IdentityUser user, string password);
-		public Task<IdentityResult> UpdateAsync(string id, UpdateUserDTO dto);
-		public Task<bool> DeleteAsync(string id);
-		public Task<IdentityResult> ChangePasswordAsync(string id, string oldPassword, string newPassword);
+		Task<List<IdentityUser>> GetAllAsync();
+		Task<IdentityUser?> GetAsync(string id);
+		Task<IdentityResult> CreateAsync(IdentityUser user, string password);
+		Task<bool> DeleteAsync(string id);
+		Task<IdentityResult> UpdateAsync(string id, UpdateUserDTO dto);
+		Task<IdentityResult> ChangePasswordAsync(string id, string oldPassword, string newPassword);
 	}
 }

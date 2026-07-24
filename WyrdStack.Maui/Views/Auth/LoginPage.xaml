@@ -11,5 +11,4 @@
         <ToolbarItem Text="Create Account" Command="{Binding NavigateToCommand}"/>
     </ContentPage.ToolbarItems>
     <components:AuthCardComponent x:Name="AuthCard"/>
-
 </ContentPage>

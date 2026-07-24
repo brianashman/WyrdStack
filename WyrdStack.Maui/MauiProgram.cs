@@ -25,7 +25,7 @@ namespace WyrdStack.Maui
 				});
 
 #if DEBUG
-			builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
 			#region DI Injection
@@ -44,10 +44,15 @@ namespace WyrdStack.Maui
 			// Services
 			builder.Services.AddSingleton<INavigationService, NavigationService>();
 
-
-			//HttpClient
+			// HttpClient
 			builder.Services.AddRefitClient<IApiClient>()
-				.ConfigureHttpClient(client => client.BaseAddress = new Uri("http://192.168.1.50:5432"));
+				.ConfigureHttpClient(client =>
+				{
+
+					client.BaseAddress = new Uri("https://192.168.1.50:5000");
+					client.Timeout = TimeSpan.FromSeconds(5); 
+				}
+			);
 
 			#endregion
 

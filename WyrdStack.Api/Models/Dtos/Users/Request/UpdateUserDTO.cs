@@ -1,4 +1,4 @@
-﻿namespace WyrdStack.Api.Models.Dtos
+﻿namespace WyrdStack.Api.Models.Dtos.Users.Request
 {
 	public class UpdateUserDTO
 	{

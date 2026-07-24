@@ -1,12 +1,13 @@
 ﻿using Refit;
-using WyrdStack.Maui.Models.Dtos;
+using WyrdStack.Maui.Models.Dtos.Reponse;
+using WyrdStack.Maui.Models.Dtos.Request;
 
 namespace WyrdStack.Maui.Services.Api
 {
 	public interface IApiClient
 	{
 		[Post("/api/auth/login")]
-		Task<AuthResponse> LoginAsync([Body] LoginRequest request);
+		Task<IdentityTokenResponse> LoginAsync([Body] IdentityLoginRequest request);
 
 		[Get("/api/users")]
 		Task<List<GetUserRequest>> GetUsersAsync();
@@ -15,7 +16,7 @@ namespace WyrdStack.Maui.Services.Api
 		Task<GetUserRequest> GetUserAsync(string id);
 
 		[Post("/api/users/register_with_username")]
-		Task<bool> CreateUserAsync([Body] CreateUserRequest user);
+		Task<CreateUserResponse> CreateUserAsync([Body] CreateUserRequest user);
 
 		[Patch("/api/users/{id}")]
 		Task<bool> UpdateUserAsync(string id, [Body] UpdateUserRequest user);
@@ -27,6 +28,13 @@ namespace WyrdStack.Maui.Services.Api
 		Task<bool> ChangePasswordAsync([Body] ChangePasswordDTO password);
 	}
 
-	public record LoginRequest(string Username, string Password);
-	public record AuthResponse(string Token);
+	public record IdentityLoginRequest(string Email, string Password);
+
+	public class IdentityTokenResponse
+	{
+		public string TokenType { get; set; } = string.Empty;
+		public string AccessToken { get; set; } = string.Empty;
+		public int ExpiresIn { get; set; }
+		public string RefreshToken { get; set; } = string.Empty;
+	}
 }
