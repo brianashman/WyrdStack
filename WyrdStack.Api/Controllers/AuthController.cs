@@ -9,6 +9,7 @@ namespace WyrdStack.Api.Controllers
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
+		public
 		[HttpGet]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAll(int id)

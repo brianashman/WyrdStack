@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace WyrdStack.Api.Services
 {
@@ -9,29 +10,40 @@ namespace WyrdStack.Api.Services
 		{
 			_userManager = userManager;
 		}
-		public Task<bool> CreateAsync(IdentityUser user)
+		public async Task<List<IdentityUser>> GetAllAsync() => await _userManager.Users.ToListAsync();
+		public async Task<IdentityUser?> GetAsync(string id) => await _userManager.FindByIdAsync(id);
+
+		public async Task<bool> CreateAsync(IdentityUser user, string password)
 		{
-			throw new NotImplementedException();
+			var result = await _userManager.CreateAsync(user, password);
+			return result.Succeeded;
+		}
+		public async Task<bool> DeleteAsync(string id)
+		{
+			var user = await _userManager.FindByIdAsync(id);
+			if (user is null) return false;
+			var result = await _userManager.DeleteAsync(user);
+			return result.Succeeded;
+		}
+		public async Task<bool> UpdateAsync(string id, IdentityUser user)
+		{
+			var existing_user = await _userManager.FindByIdAsync(id);
+			if (existing_user is null) return false;
+
+			existing_user.UserName = user.UserName;
+			existing_user.Email = user.Email;
+
+			var result = await _userManager.UpdateAsync(existing_user);
+			return result.Succeeded;
 		}
 
-		public Task<bool> DeleteAsync(string id)
+		public async Task<bool> ChangePasswordAsync(string id, string oldPassword, string newPassword)
 		{
-			throw new NotImplementedException();
-		}
+			var user = await _userManager.FindByIdAsync(id);
+			if (user is null) return false;
 
-		public Task<List<IdentityUser>> GetAllAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IdentityUser?> GetAsync(string id)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<bool> UpdateAsync(string id, IdentityUser user)
-		{
-			throw new NotImplementedException();
+			var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+			return result.Succeeded;
 		}
 	}
 }
