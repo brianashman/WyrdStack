@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Refit;
+using WyrdStack.Maui.Services.Api;
 using WyrdStack.Maui.Services.Navigation;
 using WyrdStack.Maui.ViewModels;
 using WyrdStack.Maui.ViewModels.Auth;
@@ -42,6 +44,10 @@ namespace WyrdStack.Maui
 			// Services
 			builder.Services.AddSingleton<INavigationService, NavigationService>();
 
+
+			//HttpClient
+			builder.Services.AddRefitClient<IApiClient>()
+				.ConfigureHttpClient(client => client.BaseAddress = new Uri("http://192.168.1.50:5432"));
 
 			#endregion
 
