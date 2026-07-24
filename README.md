@@ -12,7 +12,7 @@ WyrdStack provides a unified, cross‑platform dashboard for viewing system info
 | :--- | :--- | :--- |
 | **Backend API** | ASP.NET Core Web API | Gateway & Telemetry Aggregator |
 | **Native Client** | .NET MAUI | Cross-Platform App (Windows, Android, iOS) |
-| **Web Client** | Blazor | Browser-Based Web Portal |
+| **Web Client** | Blazor | Browser-Based Web Portal & Landing Page |
 | **Data Contracts** | C# Class Library (`.Shared`) | Shared Request/Response DTOs |
 | **Database** | PostgreSQL + EF Core | Persistent Data Store & Migrations |
 | **Authentication** | ASP.NET Core Identity | Token Auth (`MapIdentityApi`) |
