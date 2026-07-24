@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using WyrdStack.Maui.Services.Navigation;
-using WyrdStack.Maui.Services.Validation;
 using WyrdStack.Maui.Views.Auth;
 
 namespace WyrdStack.Maui.ViewModels.Auth
@@ -14,7 +13,7 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		{
 			_navigationService = _service;
 			Title = "Register Account";
-			ActionButtonText = "Register";
+			ActionButtonText = "Create Account";
 			IsPassword = true;
 		}
 		private bool CheckUsername(string username)
@@ -62,7 +61,7 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		}
 		protected override void ExecuteActionButton()
 		{
-			if (CheckUsername(Username) is false || CheckPassword(Password) is false) return;
+			if (CheckUsername(Email) is false || CheckPassword(Password) is false) return;
 			else StatusMessage = string.Empty;
 		}
 		protected override async Task NavigateToAsync()

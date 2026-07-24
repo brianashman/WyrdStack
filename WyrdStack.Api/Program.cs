@@ -34,13 +34,13 @@ if (app.Environment.IsDevelopment())
 	app.MapScalarApiReference();
 }
 
-app.MapIdentityApi<IdentityUser>();
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapGroup("/api/auth").MapIdentityApi<IdentityUser>();
 app.MapControllers();
 
 app.Run();

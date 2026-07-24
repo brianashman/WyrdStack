@@ -27,12 +27,12 @@
            TextColor="#2D3436"
            HorizontalOptions="Center" />
 
-            <Entry x:Name="UsernameEntry" 
-           Placeholder="Username" 
+            <Entry x:Name="EmailEntry" 
+           Placeholder="Email" 
            MaxLength="20" 
            BackgroundColor="#F8F9FA"
            TextColor="#2D3436"
-           Text="{Binding Username}"/>
+           Text="{Binding Email}"/>
 
             <Entry x:Name="PasswordEntry" 
            Placeholder="Password" 
@@ -53,7 +53,7 @@
 
             <Button Text="{Binding ActionButtonText}" 
             Command="{Binding ExecuteActionButtonCommand}" 
-            CommandParameter="{Binding Source={x:Reference UsernameEntry}, Path=Text}"
+            CommandParameter="{Binding Source={x:Reference EmailEntry}, Path=Text}"
             BackgroundColor="#0984E3"
             TextColor="White"
             CornerRadius="8"

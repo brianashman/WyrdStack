@@ -64,7 +64,7 @@ namespace WyrdStack.Maui.ViewModels.Auth
 
 		protected override void ExecuteActionButton()
 		{
-			if (CheckUsername(Username) is false || CheckPassword(Password) is false) return;
+			if (CheckUsername(Email) is false || CheckPassword(Password) is false) return;
 			else StatusMessage = string.Empty;
 		}
 		protected override async Task NavigateToAsync()

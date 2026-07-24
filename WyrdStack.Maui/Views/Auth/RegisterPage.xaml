@@ -5,6 +5,7 @@
              xmlns:components="clr-namespace:WyrdStack.Maui.Views.Auth;assembly=WyrdStack.Maui"
              x:Class="WyrdStack.Maui.Views.Auth.RegisterPage"
              x:DataType="vm:RegisterPageViewModel"
+             Title=""
              Shell.BackButtonBehavior="{BackButtonBehavior IsEnabled=False, IsVisible=False}"
              Shell.FlyoutBehavior="Disabled">
     <ContentPage.ToolbarItems>

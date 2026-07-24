@@ -11,12 +11,12 @@ namespace WyrdStack.Maui.ViewModels.Auth
 	{
 		[ObservableProperty] public partial string Title { get; set; }
 		
-		[ObservableProperty] public partial string Username { get; set; }
-		partial void OnUsernameChanged(string oldValue, string newValue)
+		[ObservableProperty] public partial string Email { get; set; }
+		partial void OnEmailChanged(string oldValue, string newValue)
 		{
 			if(newValue?.Contains(" ") is true)
 			{
-				Username = newValue.Replace(" ", "");
+				Email = newValue.Replace(" ", "");
 			}
 		}
 
