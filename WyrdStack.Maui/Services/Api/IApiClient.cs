@@ -6,7 +6,7 @@ namespace WyrdStack.Maui.Services.Api
 {
 	public interface IApiClient
 	{
-		[Post("/api/auth/login")]
+		[Post("/api/users/login")]
 		Task<IdentityTokenResponse> LoginAsync([Body] IdentityLoginRequest request);
 
 		[Get("/api/users")]

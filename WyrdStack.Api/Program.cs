@@ -18,6 +18,8 @@ builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
 {
+	options
+	.SignIn.RequireConfirmedAccount = false;
 	options.Password.RequiredLength = 8;
 	options.Password.RequireNonAlphanumeric = false;
 	options.Password.RequireLowercase = true;
@@ -45,7 +47,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGroup("/api/auth").MapIdentityApi<IdentityUser>();
+app.MapGroup("/api/users");
 app.MapControllers();
 
 app.Run();

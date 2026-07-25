@@ -96,7 +96,14 @@ namespace WyrdStack.Api.Controllers
 			var result = await _userService.ChangePasswordAsync(userId.Value, value.OldPassword, value.NewPassword);
 			return result.Succeeded ? Ok() : BadRequest(result.Errors);
 		}
+		[HttpPost("login")]
+		public async Task<IActionResult> Login([FromBody] LoginDTO value)
+		{
+			var response = await _userService.LoginAsync(value);
+			if (response is null) return Unauthorized("Invalid email or password.");
 
+			return Ok(response);
+		}
 		private bool IsOwnerOrAdmin(string resourceUserId)
 		{
 			var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);

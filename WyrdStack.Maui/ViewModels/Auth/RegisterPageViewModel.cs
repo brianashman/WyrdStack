@@ -43,13 +43,12 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		}
 		private bool CheckUsername(string username)
 		{
-			// Implementation for checking username
 			if (string.IsNullOrEmpty(username))
 			{
 				StatusMessage = "Username is required.";
 				return false;
 			}
-			if(username.Length < 3)
+			if (username.Length < 3)
 			{
 				StatusMessage = "Username must be at least 3 characters long.";
 				return false;
@@ -65,7 +64,6 @@ namespace WyrdStack.Maui.ViewModels.Auth
 		}
 		private bool CheckPassword(string password)
 		{
-			// Implementation for checking password
 			if (string.IsNullOrEmpty(password))
 			{
 				StatusMessage = "Password is required.";
@@ -96,17 +94,20 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			IsLoading = true;
 			try
 			{
-				var request = new CreateUserRequest { Email = Email, Username = Username, Password = Password };
+				var cleanEmail = Email.Trim().ToLowerInvariant();
+				var cleanUsername = Username.Trim().ToLowerInvariant();
+				var cleanPassword = Password;
+
+				var request = new CreateUserRequest { Email = cleanEmail, Username = cleanUsername, Password = cleanPassword };
 				var response = await _client.CreateUserAsync(request);
 
-				if(response is not null) StatusMessage = "User created successfully.";
-				await _navigationService.GoToAbsoluteAsync("MainPage");
+				if (response is not null) StatusMessage = "User created successfully.";
+				await _navigationService.GoToAbsoluteAsync("//MainPage");
 			}
 			catch (ApiException ex)
 			{
-				StatusMessage = ex.StatusCode == System.Net.HttpStatusCode.Unauthorized
-					? "Invalid email or password."
-					: $"API Error: {ex.StatusCode}";
+				var errorContent = ex.Content;
+				StatusMessage = $"Failed: {errorContent}";
 				IsLoading = false;
 			}
 			catch (HttpRequestException)

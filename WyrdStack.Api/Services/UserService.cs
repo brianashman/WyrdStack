@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WyrdStack.Api.Models.Dtos;
 using WyrdStack.Api.Models.Dtos.Users.Request;
+using WyrdStack.Api.Models.Dtos.Users.Response;
 
 namespace WyrdStack.Api.Services
 {
@@ -9,11 +14,16 @@ namespace WyrdStack.Api.Services
 	{
 		private readonly UserManager<IdentityUser> _userManager;
 		private readonly RoleManager<IdentityRole> _roleManager;
+		private readonly IConfiguration _configuration;
 
-		public UserService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+		public UserService(
+			UserManager<IdentityUser> userManager,
+			RoleManager<IdentityRole> roleManager,
+			IConfiguration configuration)
 		{
 			_userManager = userManager;
 			_roleManager = roleManager;
+			_configuration = configuration;
 		}
 
 		public async Task<List<IdentityUser>> GetAllAsync() => await _userManager.Users.ToListAsync();
@@ -25,14 +35,12 @@ namespace WyrdStack.Api.Services
 			var result = await _userManager.CreateAsync(user, password);
 			if (result.Succeeded)
 			{
-				// Ensure the "User" role exists in the DB before assigning it
 				string defaultRole = "User";
 				if (!await _roleManager.RoleExistsAsync(defaultRole))
 				{
 					await _roleManager.CreateAsync(new IdentityRole(defaultRole));
 				}
 
-				// Assign default role safely
 				await _userManager.AddToRoleAsync(user, defaultRole);
 			}
 			return result;
@@ -75,6 +83,59 @@ namespace WyrdStack.Api.Services
 				return IdentityResult.Failed(new IdentityError { Description = "User not found." });
 
 			return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+		}
+
+		public async Task<LoginResponseDTO?> LoginAsync(LoginDTO dto)
+		{
+			var normalizedEmail = dto.Email?.Trim().ToLowerInvariant();
+			var user = await _userManager.FindByEmailAsync(normalizedEmail);
+
+			if (user == null) return null;
+
+			var isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
+			if (!isPasswordValid) return null;
+
+			var token = await GenerateJwtTokenAsync(user);
+
+			return new LoginResponseDTO
+			{
+				AccessToken = token,
+				TokenType = "Bearer"
+			};
+		}
+
+		private async Task<string> GenerateJwtTokenAsync(IdentityUser user)
+		{
+			var claims = new List<Claim>
+			{
+				new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+				new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
+				new Claim(ClaimTypes.NameIdentifier, user.Id),
+				new Claim(ClaimTypes.Name, user.UserName ?? string.Empty)
+			};
+
+			var roles = await _userManager.GetRolesAsync(user);
+			foreach (var role in roles)
+			{
+				claims.Add(new Claim(ClaimTypes.Role, role));
+			}
+
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? "YourSuperSecretKeyThatIsLongEnough123!"));
+			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Subject = new ClaimsIdentity(claims),
+				Expires = DateTime.UtcNow.AddDays(7),
+				Issuer = _configuration["Jwt:Issuer"],
+				Audience = _configuration["Jwt:Audience"],
+				SigningCredentials = creds
+			};
+
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var createdToken = tokenHandler.CreateToken(tokenDescriptor);
+
+			return tokenHandler.WriteToken(createdToken);
 		}
 	}
 }

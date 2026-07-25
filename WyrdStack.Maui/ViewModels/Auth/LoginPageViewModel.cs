@@ -85,11 +85,14 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			if (CheckEmail(Email) is false || CheckPassword(Password) is false) return;
 
 			StatusMessage = string.Empty;
-			IsLoading = true; // Show loading screen / hide card
+			IsLoading = true;
 
 			try
 			{
-				var response = await _apiClient.LoginAsync(new IdentityLoginRequest(Email, Password));
+				var lowerEmail = Email.Trim().ToLowerInvariant();
+				var lowerPassword = Password;
+
+				var response = await _apiClient.LoginAsync(new IdentityLoginRequest(lowerEmail, lowerPassword));
 
 				if (!string.IsNullOrEmpty(response?.AccessToken))
 				{
@@ -100,7 +103,7 @@ namespace WyrdStack.Maui.ViewModels.Auth
 				else
 				{
 					StatusMessage = "Server returned an empty response.";
-					IsLoading = false; // Restore card if it fails
+					IsLoading = false;
 				}
 			}
 			catch (ApiException ex)
@@ -109,7 +112,6 @@ namespace WyrdStack.Maui.ViewModels.Auth
 				{
 					SecureStorage.Default.Remove("auth_token");
 					StatusMessage = "Invalid email or password.";
-					await _navigationService.GoToAbsoluteAsync("//LoginPage");
 				}
 				else
 				{
