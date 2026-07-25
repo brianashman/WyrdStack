@@ -29,56 +29,32 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			HasUsernameEntry = false;
 		}
 
-		private bool CheckEmail(string email)
-		{
-			if (string.IsNullOrEmpty(email))
+			private bool CheckEmail(string email)
 			{
-				StatusMessage = "Email is required.";
-				return false;
-			}
-			var emailAttribute = new EmailAddressAttribute();
-			if (!emailAttribute.IsValid(email))
-			{
-				StatusMessage = "Invalid email format.";
-				return false;
-			}
-			return true;
-		}
-
-		private bool CheckPassword(string password)
-		{
-			if (string.IsNullOrEmpty(password))
-			{
-				StatusMessage = "Password is required.";
-				return false;
+				if (string.IsNullOrEmpty(email))
+				{
+					StatusMessage = "Email is required.";
+					return false;
+				}
+				var emailAttribute = new EmailAddressAttribute();
+				if (!emailAttribute.IsValid(email))
+				{
+					StatusMessage = "Invalid email format.";
+					return false;
+				}
+				return true;
 			}
 
-			if (password.Length < 8)
+			private bool CheckPassword(string password)
 			{
-				StatusMessage = "Password must be at least 8 characters long.";
-				return false;
-			}
+				if (string.IsNullOrEmpty(password))
+				{
+					StatusMessage = "Password is required.";
+					return false;
+				}
 
-			if (!password.Any(char.IsUpper))
-			{
-				StatusMessage = "You must have at least one uppercase letter in your password.";
-				return false;
+				return true;
 			}
-
-			if (!password.Any(char.IsLower))
-			{
-				StatusMessage = "You must have at least one lowercase letter in your password.";
-				return false;
-			}
-
-			if (!password.Any(char.IsDigit))
-			{
-				StatusMessage = "You must have at least one digit in your password.";
-				return false;
-			}
-
-			return true;
-		}
 
 		protected override async void ExecuteActionButton()
 		{
