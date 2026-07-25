@@ -73,6 +73,13 @@
 		<PackageReference Include="Refit" Version="13.1.0" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="13.1.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.11.285" />
+		<PackageReference Include="UraniumUI" Version="3.0.0" />
+		<PackageReference Include="UraniumUI.Dialogs.CommunityToolkit" Version="3.0.0" />
+		<PackageReference Include="UraniumUI.Icons.FontAwesome" Version="3.0.0" />
+		<PackageReference Include="UraniumUI.Icons.MaterialIcons" Version="3.0.0" />
+		<PackageReference Include="UraniumUI.Icons.SegoeFluent" Version="3.0.0" />
+		<PackageReference Include="UraniumUI.Material" Version="3.0.0" />
+		<PackageReference Include="UraniumUI.Validations.DataAnnotations" Version="3.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

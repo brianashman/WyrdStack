@@ -1,6 +1,10 @@
 ﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
 using Microsoft.Extensions.Logging;
 using Refit;
+using UraniumUI;
+using UraniumUI.Options;
+using UraniumUI.Validations;
 using WyrdStack.Maui.Services.Api;
 using WyrdStack.Maui.Services.Navigation;
 using WyrdStack.Maui.ViewModels;
@@ -18,6 +22,9 @@ namespace WyrdStack.Maui
 			builder
 				.UseMauiApp<App>()
 				.UseMauiCommunityToolkit()
+				.UseUraniumUI()
+				.UseUraniumUIMaterial()
+				.UseMauiCommunityToolkitCore()
 				.ConfigureFonts(fonts =>
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -27,7 +34,10 @@ namespace WyrdStack.Maui
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-
+			builder.Services.Configure<AutoFormViewOptions>(options =>
+			{
+				options.ValidationFactory = DataAnnotationValidation.CreateValidations;
+			});
 			#region DI Injection
 
 			// Views
