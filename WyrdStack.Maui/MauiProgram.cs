@@ -1,10 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Core;
-using Microsoft.Extensions.Logging;
 using Refit;
 using UraniumUI;
-using UraniumUI.Options;
-using UraniumUI.Validations;
 using WyrdStack.Maui.Services.Api;
 using WyrdStack.Maui.Services.Navigation;
 using WyrdStack.Maui.ViewModels;
@@ -29,15 +26,13 @@ namespace WyrdStack.Maui
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+					fonts.AddFontAwesomeIconFonts();
+					fonts.AddMaterialIconFonts();
+					fonts.AddFluentIconFonts();
 				});
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-			builder.Services.Configure<AutoFormViewOptions>(options =>
-			{
-				options.ValidationFactory = DataAnnotationValidation.CreateValidations;
-			});
 			#region DI Injection
 
 			// Views
@@ -59,7 +54,7 @@ namespace WyrdStack.Maui
 				.ConfigureHttpClient(client =>
 				{
 
-					client.BaseAddress = new Uri("http://localhost:5237");
+					client.BaseAddress = new Uri("http://192.168.86.89:5237");
 					client.Timeout = TimeSpan.FromSeconds(5); 
 				}
 			);
