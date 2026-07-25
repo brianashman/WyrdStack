@@ -49,7 +49,7 @@ namespace WyrdStack.Maui
 				.ConfigureHttpClient(client =>
 				{
 
-					client.BaseAddress = new Uri("https://192.168.1.50:5000");
+					client.BaseAddress = new Uri("http://localhost:5237");
 					client.Timeout = TimeSpan.FromSeconds(5); 
 				}
 			);

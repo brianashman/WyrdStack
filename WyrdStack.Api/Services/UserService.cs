@@ -8,10 +8,12 @@ namespace WyrdStack.Api.Services
 	public class UserService : IUserService
 	{
 		private readonly UserManager<IdentityUser> _userManager;
+		private readonly RoleManager<IdentityRole> _roleManager;
 
-		public UserService(UserManager<IdentityUser> userManager)
+		public UserService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
 		{
 			_userManager = userManager;
+			_roleManager = roleManager;
 		}
 
 		public async Task<List<IdentityUser>> GetAllAsync() => await _userManager.Users.ToListAsync();
@@ -23,8 +25,15 @@ namespace WyrdStack.Api.Services
 			var result = await _userManager.CreateAsync(user, password);
 			if (result.Succeeded)
 			{
-				// Assign default role to prevent authorization failures
-				await _userManager.AddToRoleAsync(user, "User");
+				// Ensure the "User" role exists in the DB before assigning it
+				string defaultRole = "User";
+				if (!await _roleManager.RoleExistsAsync(defaultRole))
+				{
+					await _roleManager.CreateAsync(new IdentityRole(defaultRole));
+				}
+
+				// Assign default role safely
+				await _userManager.AddToRoleAsync(user, defaultRole);
 			}
 			return result;
 		}
@@ -44,14 +53,12 @@ namespace WyrdStack.Api.Services
 			if (existingUser is null)
 				return IdentityResult.Failed(new IdentityError { Description = "User not found." });
 
-			// Only update UserName if provided, using Identity's safe method
 			if (!string.IsNullOrWhiteSpace(dto.UserName) && dto.UserName != existingUser.UserName)
 			{
 				var setUserNameResult = await _userManager.SetUserNameAsync(existingUser, dto.UserName);
 				if (!setUserNameResult.Succeeded) return setUserNameResult;
 			}
 
-			// Only update Email if provided, using Identity's safe method
 			if (!string.IsNullOrWhiteSpace(dto.Email) && dto.Email != existingUser.Email)
 			{
 				var setEmailResult = await _userManager.SetEmailAsync(existingUser, dto.Email);

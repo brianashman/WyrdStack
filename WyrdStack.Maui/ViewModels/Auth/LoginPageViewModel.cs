@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Refit;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -28,18 +29,17 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			HasUsernameEntry = false;
 		}
 
-		private bool CheckEmail(string username)
+		private bool CheckEmail(string email)
 		{
-			if (string.IsNullOrEmpty(username))
+			if (string.IsNullOrEmpty(email))
 			{
-				StatusMessage = "Username is required.";
+				StatusMessage = "Email is required.";
 				return false;
 			}
-
-			const string allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
-			if (username.Any(c => !allowedCharacters.Contains(c)))
+			var emailAttribute = new EmailAddressAttribute();
+			if (!emailAttribute.IsValid(email))
 			{
-				StatusMessage = "Username can only contain letters, numbers, hyphens, and underscores.";
+				StatusMessage = "Invalid email format.";
 				return false;
 			}
 			return true;
@@ -93,6 +93,7 @@ namespace WyrdStack.Maui.ViewModels.Auth
 
 				if (!string.IsNullOrEmpty(response?.AccessToken))
 				{
+					await SecureStorage.Default.SetAsync("auth_token", response.AccessToken);
 					StatusMessage = "Success!";
 					await _navigationService.GoToAbsoluteAsync("//MainPage");
 				}
@@ -104,9 +105,16 @@ namespace WyrdStack.Maui.ViewModels.Auth
 			}
 			catch (ApiException ex)
 			{
-				StatusMessage = ex.StatusCode == System.Net.HttpStatusCode.Unauthorized
-					? "Invalid email or password."
-					: $"API Error: {ex.StatusCode}";
+				if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+				{
+					SecureStorage.Default.Remove("auth_token");
+					StatusMessage = "Invalid email or password.";
+					await _navigationService.GoToAbsoluteAsync("//LoginPage");
+				}
+				else
+				{
+					StatusMessage = $"API Error: {ex.StatusCode}";
+				}
 				IsLoading = false;
 			}
 			catch (HttpRequestException)

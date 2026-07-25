@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WyrdStack.Api.Data;
+using WyrdStack.Api.Mappers.UserAuth;
 using WyrdStack.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserMapper, UserMapper>();
 builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -25,7 +27,8 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
 	options.User.RequireUniqueEmail = true;
 	options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 }
-).AddEntityFrameworkStores<DataContext>();
+).AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<DataContext>();
 
 var app = builder.Build();
 
