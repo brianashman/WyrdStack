@@ -60,7 +60,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGroup("/api/users");
-app.MapHub<MetricsHub>("/api/MetricsHub");
+app.MapHub<MetricsHub>("/api/metrics");
 app.MapControllers();
 
 app.Run();
