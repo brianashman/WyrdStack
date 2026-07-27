@@ -35,7 +35,6 @@ namespace WyrdStack.Maui
             builder.Logging.AddDebug();
 #endif
 			#region DI Injection
-
 			// Views
 			builder.Services.AddTransient<MainPage>();
 			builder.Services.AddTransient<LoginPage>();

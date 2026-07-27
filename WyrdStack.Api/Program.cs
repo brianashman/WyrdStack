@@ -4,9 +4,11 @@ using Scalar.AspNetCore;
 using WyrdStack.Api.Data;
 using WyrdStack.Api.Mappers.UserAuth;
 using WyrdStack.Api.Services;
+using Microsoft.AspNetCore.SignalR;
+using WyrdStack.Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddSignalR();
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserMapper, UserMapper>();
@@ -48,6 +50,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGroup("/api/users");
+//app.MapHub<ChatHub>("/api/chatHub");
 app.MapControllers();
 
 app.Run();
