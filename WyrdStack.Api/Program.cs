@@ -6,12 +6,22 @@ using WyrdStack.Api.Mappers.UserAuth;
 using WyrdStack.Api.Services;
 using Microsoft.AspNetCore.SignalR;
 using WyrdStack.Api.Hubs;
+using WyrdStack.Api.Features.Metrics.Providers;
+using WyrdStack.Api.Features.Metrics.Core.Sources;
+using WyrdStack.Api.Features.Metrics.Services;
+using WyrdStack.Api.Features.Metrics.Background;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserMapper, UserMapper>();
+
+#region
+builder.Services.AddTransient<IMetricsProvider<RuntimeSystemMetrics>, RuntimeMetricsProvider>();
+builder.Services.AddTransient<IMetricsService, MetricsService>();
+builder.Services.AddHostedService<MetricsBackgroundWorker>();
+#endregion
 builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -50,7 +60,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGroup("/api/users");
-//app.MapHub<ChatHub>("/api/chatHub");
+app.MapHub<MetricsHub>("/api/MetricsHub");
 app.MapControllers();
 
 app.Run();

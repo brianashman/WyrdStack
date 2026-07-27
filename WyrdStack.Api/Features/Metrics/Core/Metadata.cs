@@ -1,4 +1,4 @@
-﻿namespace WyrdStack.Api.Services.Metrics.Core
+﻿namespace WyrdStack.Api.Features.Metrics.Core
 {
 	public class Metadata
 	{
