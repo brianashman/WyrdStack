@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Refit;
 using UraniumUI;
 using WyrdStack.Maui.Services.Api;
+using WyrdStack.Maui.Services.Metrics;
 using WyrdStack.Maui.Services.Navigation;
 using WyrdStack.Maui.ViewModels;
 using WyrdStack.Maui.ViewModels.Auth;
@@ -58,6 +59,19 @@ namespace WyrdStack.Maui
 					client.Timeout = TimeSpan.FromSeconds(5); 
 				}
 			);
+
+			//SignalR Client
+			//SignalR Client
+			builder.Services.AddScoped<MetricsSignalRClientService>(services =>
+			{
+				var logger = services.GetRequiredService<ILogger<MetricsSignalRClientService>>();
+
+				return new MetricsSignalRClientService(
+					"http://192.168.86.89:5237/api/metrics",
+					async () => await SecureStorage.Default.GetAsync("auth_token") ?? string.Empty,
+					logger
+				);
+			});
 
 			#endregion
 

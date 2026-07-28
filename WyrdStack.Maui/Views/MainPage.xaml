@@ -10,8 +10,14 @@
              x:DataType="vm:MainPageViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Logout" Command="{Binding LogoutCommand}" />
-
     </ContentPage.ToolbarItems>
+
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Label Text="{Binding CpuCoreCount}"/>
+        <Label Text="{Binding Uptime}" />
+        <Label Text="{Binding TotalMemoryBytes}" />
+        <Label Text="{Binding TotalStorageBytes}" />
+    </VerticalStackLayout>
 
 
 </ContentPage>
