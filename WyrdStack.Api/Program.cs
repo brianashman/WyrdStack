@@ -58,7 +58,6 @@ builder.Services.AddAuthentication()
 		ValidateIssuer = false,
 		ValidateAudience = false,
 		ValidateLifetime = true,
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "YOUR_SUPER_SECRET_KEY_HERE_MIN_32_BYTES"))
 	};
 
 	options.Events = new JwtBearerEvents
